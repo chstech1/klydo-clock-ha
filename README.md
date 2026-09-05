@@ -2,7 +2,9 @@
 
 Local control of the stock Klydo Clock over ADB, installable as a HACS custom integration. No separate ADB server, cloud account, MQTT broker, or clock firmware changes are required.
 
-**Security:** The tested stock clock exposes unauthenticated root ADB access. Restrict TCP port **1379** to Home Assistant and trusted administration devices. Use a trusted IoT network, block guest/client access, and never forward this port to the internet. This integration cannot check your firewall. See [security and recovery](docs/SECURITY_AND_RECOVERY.md).
+**Critical security exposure:** Any client that can reach the tested stock clock's TCP port **1379** can obtain unauthenticated ADB access and become root. This is an unacceptable production security posture. Isolate the clock from trusted devices, allow ADB only from Home Assistant and designated administrators, and never expose it to the internet. The stock app also has a separate cloud-triggered support shell; blocking inbound ADB does not disable that outbound path. This integration does not fix the clock's security. Read [security and recovery](docs/SECURITY_AND_RECOVERY.md) before deploying it.
+
+For the detailed findings, see the [security assessment](SECURITY.md) and [application architecture and behavior](docs/APP.md). These describe the tested firmware and distinguish observed capabilities from unverified backend behavior.
 
 ## Requirements
 
@@ -62,7 +64,7 @@ Use the integration's **Configure** action to change polling (5–300 seconds), 
 
 **Automatic night mode** has three options: **Off**, **Scheduled** (the start/end times already saved on the clock), and **Dim room** (the clock's ambient-light behavior). Set scheduled hours on the clock. This option is independent of the immediate switch: an enabled automatic rule can put the clock back into night mode later. Turn automatic mode off to keep manual control. Ambient thresholds and schedule timing remain stock-app behavior.
 
-Changing the automatic option navigates the stock English settings menus, so it can take several seconds and temporarily shows those menus. Start with the clock awake, showing **Feed**, with all menus closed. Avoid operating the remote during the change. Unsupported menus or missing state stop the operation with an error; close any remaining menu using the remote before retrying.
+Changing the automatic option navigates the stock English settings menus, so it can take a minute or more and temporarily shows those menus. Start with the clock awake, showing **Feed**, with all menus closed. Avoid operating the remote during the change. Unsupported menus or missing state stop the operation with an error; close any remaining menu using the remote before retrying.
 
 **Toggle favorite** acts like the remote heart button: it adds or removes the currently displayed animation. Wake the clock and close menus first. The integration verifies that the favorites list changed using a hash calculated on the device; it does not download the list. Animations without favorite support report an error. A toggle is never automatically replayed after a timeout.
 
@@ -74,7 +76,7 @@ Current-animation metadata, app launch/stop/restart, media-player controls, disp
 
 ## Update, rollback, remove
 
-Before an update, create a Home Assistant backup. Download the desired release in HACS and restart Home Assistant. To roll back once multiple releases exist, use HACS **Redownload**, choose the prior version, and restart. No earlier release exists before `0.1.0`. For manual rollback, replace the integration directory with files from the chosen release and restart. Do not mix files from different versions.
+Before an update, create a Home Assistant backup. Download the desired release in HACS and restart Home Assistant. To roll back once multiple releases exist, use HACS **Redownload**, choose the prior version, and restart. For manual rollback, replace the integration directory with files from the chosen release and restart. Do not mix files from different versions.
 
 To remove it, delete the Klydo Clock config entry in Devices & services, remove the download in HACS, and restart. This closes the connection and does not modify the stock clock application.
 

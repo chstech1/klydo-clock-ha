@@ -18,6 +18,10 @@ A new clock receives a user confirmation card; identity is checked again on conf
 
 The service-instance identifier and generic hostname are never treated as proof of Klydo identity. No database access, clock modification, subnet scan, custom advertisement service or DHCP vendor-wide matcher is needed.
 
+## Security boundary
+
+Package presence and a stable identity hash detect ordinary mismatches; they are not cryptographic authentication. mDNS and the stock unauthenticated ADB endpoint can be impersonated on a hostile network. Limit multicast forwarding and ADB access to intended trusted controllers. Discovery does not secure the clock or disable its separate vendor cloud command channel.
+
 ## Limits
 
 - The Home Assistant host needs to receive the mDNS advertisement and reach ADB. A VLAN boundary may require router mDNS forwarding; keep ADB restricted to approved clients.

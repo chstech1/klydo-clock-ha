@@ -8,7 +8,7 @@ Release scope: **0.1.2 — ADB controls, night mode, favorites and verified mDNS
 - Verified package presence and hashed stable identity; no IP-based permanent IDs.
 - User/config/options/reconfigure flows, duplicate rejection and device-mismatch protection during setup.
 - Coordinator with immutable comparable state, unavailable/recovery behavior, immediate refresh after commands, unload and shutdown cleanup.
-- Next/previous/refresh buttons, connectivity/running/foreground sensors, app-version and free-storage sensors.
+- Next/previous/refresh/favorite buttons, manual night switch, automatic night selector, connectivity/running/foreground sensors, app-version and free-storage sensors.
 - Explicitly allowlisted diagnostics, translated entity names, local icon artwork.
 - HACS layout and metadata, Hassfest/HACS/test/lint workflows, installation/recovery/update/rollback documentation.
 - Synthetic/sanitized parser fixtures and Home Assistant integration tests with network sockets disabled.
@@ -45,9 +45,13 @@ The public HACS package uses versioned GitHub releases. GitHub authorization inc
 
 Live unicast DNS-SD and multicast browsing both confirmed the stock `_adb._tcp.local.` service on port 1379. ADB service identity is verified before discovery confirmation or existing-entry address updates. The clock has a generic Android hostname and no distinctive `net.hostname`, so no DHCP hostname/vendor matcher was added. See `DISCOVERY.md` for sanitized evidence and network limitations.
 
-
 ## Controls update (0.1.2)
 
 Night mode uses a bounded stock moon-button sequence with state confirmation after each step. Automatic night settings use verified English menu labels. Favorite toggles are checked against an on-device hash, with no automatic key replay. Tests cover parser failures, inline protobuf length markers, state availability, guarded menu navigation, no-op/idempotent requests, serialized multi-step operations and Home Assistant services.
 
 Only selected app state is read; there are no direct clock file/database edits, APK replacements or installed helpers. Manual exit restores the stock maximum brightness. Automatic scheduling/dim-room behavior remains independent of manual state. Full ambient-light and scheduled-boundary acceptance remains to be observed on the installation target.
+
+
+Release 0.1.2 passed 88 automated tests and GitHub Ruff, Hassfest and HACS checks. Live tests confirmed night on/off, automatic settings and favorite toggling. An inactive settings leaf initially prevented menu cleanup; the checked cleanup path was corrected and tested. The initial automatic setting and favorites state were restored. Manual night exit restores maximum brightness, not a remembered prior level.
+
+The code and versioned release are published. End-to-end installation on the owner's Home Assistant instance is not claimed. Firewall isolation, backend authorization and full-stock recovery remain unverified; see [security and recovery](SECURITY_AND_RECOVERY.md). HACS validation is packaging validation, not a security certification.
