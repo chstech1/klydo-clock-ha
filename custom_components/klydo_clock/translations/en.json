@@ -1,0 +1,79 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Klydo Clock",
+        "description": "Connect over your trusted local network. The stock ADB port provides root access without authentication. Restrict it to Home Assistant and trusted administration devices.",
+        "data": {
+          "host": "Hostname or IP address",
+          "port": "ADB port"
+        }
+      },
+      "reconfigure": {
+        "title": "Update clock address",
+        "data": {
+          "host": "Hostname or IP address",
+          "port": "ADB port"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Unable to connect. Check the address, ADB port and firewall.",
+      "invalid_auth": "This clock requires ADB authentication, which is not supported by this release.",
+      "not_klydo": "The stock Klydo application was not found.",
+      "missing_identity": "A stable device identifier could not be read.",
+      "invalid_host": "Enter a valid hostname or IP address and port."
+    },
+    "abort": {
+      "already_configured": "This clock is already configured. Use Reconfigure to update its address.",
+      "unique_id_mismatch": "This address belongs to a different clock.",
+      "reconfigure_successful": "Clock address updated."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "poll_interval": "Poll interval (seconds)",
+          "command_timeout": "Command timeout (seconds)",
+          "diagnostic_sensors": "Enable app version and storage sensors"
+        }
+      }
+    },
+    "error": {
+      "invalid_options": "Use a poll interval of 5\u2013300 seconds and a timeout of 2\u201330 seconds."
+    }
+  },
+  "entity": {
+    "button": {
+      "next_animation": {
+        "name": "Next animation"
+      },
+      "previous_animation": {
+        "name": "Previous animation"
+      },
+      "refresh_state": {
+        "name": "Refresh state"
+      }
+    },
+    "binary_sensor": {
+      "connected": {
+        "name": "ADB connected"
+      },
+      "app_running": {
+        "name": "Klydo running"
+      },
+      "app_foreground": {
+        "name": "Klydo foreground"
+      }
+    },
+    "sensor": {
+      "app_version": {
+        "name": "App version"
+      },
+      "free_storage": {
+        "name": "Free storage"
+      }
+    }
+  }
+}

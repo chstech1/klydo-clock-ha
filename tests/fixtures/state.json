@@ -1,0 +1,8 @@
+{
+  "version": "    versionName=623.3\n",
+  "process": "1234\n",
+  "foreground": "  mCurrentFocus=Window{abc123 u0 com.klydoclock/com.klydoclock.MainActivity}\n",
+  "storage": "Filesystem            1K-blocks    Used Available Use% Mounted on\n/dev/block/example  23703532 2052100  21520360   9% /data\n",
+  "screen": "Display Power: state=ON\n",
+  "brightness": "255\n"
+}

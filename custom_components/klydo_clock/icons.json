@@ -1,0 +1,20 @@
+{
+  "entity": {
+    "button": {
+      "next_animation": {
+        "default": "mdi:skip-next"
+      },
+      "previous_animation": {
+        "default": "mdi:skip-previous"
+      },
+      "refresh_state": {
+        "default": "mdi:refresh"
+      }
+    },
+    "sensor": {
+      "app_version": {
+        "default": "mdi:information-outline"
+      }
+    }
+  }
+}
