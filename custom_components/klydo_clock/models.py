@@ -12,6 +12,9 @@ class KlydoState:
     free_storage_bytes: int | None = None
     screen_on: bool | None = None
     brightness: int | None = None
+    night_mode: bool | None = None
+    night_mode_setting: str | None = None
+    app_screen_state: str | None = None
 
 
 @dataclass(frozen=True)

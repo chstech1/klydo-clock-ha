@@ -10,7 +10,7 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 
 from .adb_client import KlydoClient
 from .const import CONF_POLL_INTERVAL, DEFAULT_POLL_INTERVAL, DOMAIN
-from .exceptions import KlydoError
+from .exceptions import KlydoError, KlydoResponseError
 from .models import KlydoState
 
 LOGGER = logging.getLogger(__name__)
@@ -38,13 +38,19 @@ class KlydoCoordinator(DataUpdateCoordinator[KlydoState]):
         except KlydoError:
             raise UpdateFailed("Unable to communicate with the clock") from None
 
-    async def async_command(self, key: str) -> None:
+    async def async_command(self, key: str, *args) -> None:
         actions = {
+            "toggle_favorite": self.client.toggle_favorite,
+            "night_mode": self.client.set_night_mode,
+            "automatic_night_mode": self.client.set_automatic_night_mode,
             "next_animation": self.client.next_animation,
             "previous_animation": self.client.previous_animation,
         }
         try:
-            await actions[key]()
+            await actions[key](*args)
+        except KlydoResponseError as err:
+            await self.async_refresh()
+            raise HomeAssistantError(str(err)) from None
         except KlydoError:
             self.async_set_update_error(UpdateFailed("Clock command failed"))
             raise HomeAssistantError("Unable to communicate with the clock") from None

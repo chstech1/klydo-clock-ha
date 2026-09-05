@@ -19,6 +19,8 @@ def client():
         instance.poll = AsyncMock(
             return_value=KlydoState(
                 app_version="623.3",
+                night_mode=False,
+                night_mode_setting="OFF",
                 app_running=True,
                 app_foreground=True,
                 free_storage_bytes=1024**3,

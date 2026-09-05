@@ -34,10 +34,13 @@ Home Assistant must receive the clock's mDNS traffic and reach its ADB port. Dis
 
 Discovery was observed live from the test clock, and the Home Assistant flow is covered by automated tests. Appearance of the card on your particular HA/network installation still needs confirmation. Full details: [discovery evidence](docs/DISCOVERY.md).
 
-## Included in 0.1.0
+## Included controls and sensors
 
 | Entity | Purpose |
 | --- | --- |
+| Night mode switch | Enter or leave night mode now, with confirmed device state |
+| Automatic night mode selector | Off, Scheduled, or Dim room |
+| Toggle favorite button | Add/remove the displayed animation from favorites |
 | Next animation button | Send the validated next-animation key event |
 | Previous animation button | Send the validated previous-animation key event |
 | Refresh state button | Read the clock immediately |
@@ -53,9 +56,21 @@ Navigation sends Android directional keys and should be used while the Klydo app
 
 Use the integration's **Configure** action to change polling (5–300 seconds), command timeout (2–30 seconds), or whether software/storage diagnostic sensors are loaded. Changes reload the integration. Use **Reconfigure** to change an address without changing entity IDs. A different physical device at the same address is rejected during setup.
 
+## Night mode and favorites (0.1.2+)
+
+**Night mode** is an immediate action, not a schedule toggle. It follows the stock remote's moon-button sequence and confirms the app's actual screen state. Entering night mode takes up to three presses; leaving takes up to two and restores the stock maximum brightness. The dark/off stage counts as night mode on. Allow a few seconds for screen verification and button processing; this is not an instantaneous network switch.
+
+**Automatic night mode** has three options: **Off**, **Scheduled** (the start/end times already saved on the clock), and **Dim room** (the clock's ambient-light behavior). Set scheduled hours on the clock. This option is independent of the immediate switch: an enabled automatic rule can put the clock back into night mode later. Turn automatic mode off to keep manual control. Ambient thresholds and schedule timing remain stock-app behavior.
+
+Changing the automatic option navigates the stock English settings menus, so it can take several seconds and temporarily shows those menus. Start with the clock awake, showing **Feed**, with all menus closed. Avoid operating the remote during the change. Unsupported menus or missing state stop the operation with an error; close any remaining menu using the remote before retrying.
+
+**Toggle favorite** acts like the remote heart button: it adds or removes the currently displayed animation. Wake the clock and close menus first. The integration verifies that the favorites list changed using a hash calculated on the device; it does not download the list. Animations without favorite support report an error. A toggle is never automatically replayed after a timeout.
+
+No device files, databases, APKs, or firmware are directly edited, and no helper is installed on the clock. The integration reads four selected app settings through stock root access and sends normal remote key events. The stock app saves its own settings and may synchronize them using its existing cloud connection. The integration uses no cloud credentials or cloud APIs. Missing or unrecognized app settings make the affected controls unavailable. State changes made with the remote appear on the next poll.
+
 ## Planned features
 
-Current-animation metadata, app launch/stop/restart, media-player controls, display power/brightness, night mode, playback modes, and targeted selection are **not implemented in 0.1.0**. They require the validation gates in [the plan](HA_INT_PLAN.md). Android display state and brightness can be read in diagnostics, but their effect on the physical panel has not been established. See [implementation status](docs/IMPLEMENTATION_STATUS.md) for the exact remaining work.
+Current-animation metadata, app launch/stop/restart, media-player controls, display power/brightness, playback modes, and targeted selection are **not implemented in 0.1.2**. They require the validation gates in [the plan](HA_INT_PLAN.md). Android display state and brightness can be read in diagnostics, but their effect on the physical panel has not been established. See [implementation status](docs/IMPLEMENTATION_STATUS.md) for the exact remaining work.
 
 ## Update, rollback, remove
 

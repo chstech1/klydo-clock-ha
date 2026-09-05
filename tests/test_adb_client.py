@@ -135,7 +135,7 @@ async def test_serializes_transactions(transport):
     client = KlydoClient("clock.example")
     await asyncio.gather(client.poll(), client.next_animation(), client.previous_animation())
     assert maximum == 1
-    assert len(transport.shell.await_args_list) == 8
+    assert len(transport.shell.await_args_list) == 9
 
 
 async def test_cancel_closes_transport(transport):

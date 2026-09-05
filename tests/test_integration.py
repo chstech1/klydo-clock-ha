@@ -108,3 +108,45 @@ async def test_refresh_button(hass, entry, client):
         "button", "press", {"entity_id": "button.klydo_clock_refresh_state"}, blocking=True
     )
     assert client.poll.await_count == before + 1
+
+
+async def test_new_controls_and_remote_state(hass, entry, client):
+    from dataclasses import replace
+
+    await setup(hass, entry)
+    assert hass.states.get("switch.klydo_clock_night_mode").state == "off"
+    assert hass.states.get("select.klydo_clock_automatic_night_mode").state == "off"
+    client.poll.return_value = replace(client.poll.return_value, night_mode=True)
+    await hass.services.async_call(
+        "switch", "turn_on", {"entity_id": "switch.klydo_clock_night_mode"}, blocking=True
+    )
+    client.set_night_mode.assert_awaited_once_with(True)
+    assert hass.states.get("switch.klydo_clock_night_mode").state == "on"
+    await hass.services.async_call(
+        "select",
+        "select_option",
+        {"entity_id": "select.klydo_clock_automatic_night_mode", "option": "dim_room"},
+        blocking=True,
+    )
+    client.set_automatic_night_mode.assert_awaited_once_with("AUTO")
+    await hass.services.async_call(
+        "button", "press", {"entity_id": "button.klydo_clock_toggle_favorite"}, blocking=True
+    )
+    client.toggle_favorite.assert_awaited_once()
+    client.poll.return_value = replace(
+        client.poll.return_value, night_mode=None, night_mode_setting=None
+    )
+    await entry.runtime_data.async_refresh()
+    assert hass.states.get("switch.klydo_clock_night_mode").state == "unavailable"
+    assert hass.states.get("select.klydo_clock_automatic_night_mode").state == "unavailable"
+    assert hass.states.get("binary_sensor.klydo_clock_klydo_running").state == "on"
+
+
+async def test_control_response_error_keeps_connection(hass, entry, client):
+    from custom_components.klydo_clock.exceptions import KlydoResponseError
+
+    await setup(hass, entry)
+    client.toggle_favorite.side_effect = KlydoResponseError("Close the clock menu")
+    with pytest.raises(HomeAssistantError, match="Close the clock menu"):
+        await entry.runtime_data.async_command("toggle_favorite")
+    assert entry.runtime_data.last_update_success

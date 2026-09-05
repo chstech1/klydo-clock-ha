@@ -9,11 +9,24 @@
       },
       "refresh_state": {
         "default": "mdi:refresh"
+      },
+      "toggle_favorite": {
+        "default": "mdi:heart"
       }
     },
     "sensor": {
       "app_version": {
         "default": "mdi:information-outline"
+      }
+    },
+    "switch": {
+      "night_mode": {
+        "default": "mdi:weather-night"
+      }
+    },
+    "select": {
+      "automatic_night_mode": {
+        "default": "mdi:theme-light-dark"
       }
     }
   }

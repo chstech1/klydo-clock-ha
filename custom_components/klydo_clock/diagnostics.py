@@ -5,7 +5,7 @@ async def async_get_config_entry_diagnostics(hass, entry):
     coordinator = entry.runtime_data
     state = coordinator.data
     return {
-        "integration_version": "0.1.1",
+        "integration_version": "0.1.2",
         "connected": coordinator.last_update_success,
         "poll_interval": coordinator.update_interval.total_seconds(),
         "state": {
@@ -14,5 +14,7 @@ async def async_get_config_entry_diagnostics(hass, entry):
             "free_storage_bytes": state.free_storage_bytes,
             "screen_on": state.screen_on,
             "brightness": state.brightness,
+            "night_mode": state.night_mode,
+            "night_mode_setting": state.night_mode_setting,
         },
     }

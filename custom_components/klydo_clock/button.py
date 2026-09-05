@@ -6,6 +6,7 @@ from homeassistant.helpers.entity import EntityCategory
 from .entity import KlydoEntity
 
 DESCRIPTIONS = (
+    ButtonEntityDescription(key="toggle_favorite", translation_key="toggle_favorite"),
     ButtonEntityDescription(key="next_animation", translation_key="next_animation"),
     ButtonEntityDescription(key="previous_animation", translation_key="previous_animation"),
     ButtonEntityDescription(

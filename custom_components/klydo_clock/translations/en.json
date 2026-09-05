@@ -62,6 +62,9 @@
       },
       "refresh_state": {
         "name": "Refresh state"
+      },
+      "toggle_favorite": {
+        "name": "Toggle favorite"
       }
     },
     "binary_sensor": {
@@ -81,6 +84,21 @@
       },
       "free_storage": {
         "name": "Free storage"
+      }
+    },
+    "switch": {
+      "night_mode": {
+        "name": "Night mode"
+      }
+    },
+    "select": {
+      "automatic_night_mode": {
+        "name": "Automatic night mode",
+        "state": {
+          "off": "Off",
+          "scheduled": "Scheduled",
+          "dim_room": "Dim room"
+        }
       }
     }
   }
