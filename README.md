@@ -19,10 +19,20 @@ Local control of the stock Klydo Clock over ADB, installable as a HACS custom in
 2. Add `https://github.com/chstech1/klydo-clock-ha` and choose **Integration** as the type.
 3. Find **Klydo Clock**, select **Download**, and choose the latest release.
 4. Restart Home Assistant.
-5. Open **Settings → Devices & services → Add integration → Klydo Clock**.
-6. Enter the clock's hostname or IP address and ADB port (`1379` by default).
+5. Open **Settings → Devices & services** and accept the **Klydo Clock** discovered card.
+6. If no card appears, use **Add integration → Klydo Clock** and enter the clock's hostname or IP address and ADB port (`1379` by default).
 
 Adding a custom repository does not require inclusion in the default HACS catalog. See the [HACS custom repository instructions](https://www.hacs.xyz/docs/faq/custom_repositories/).
+
+## Automatic discovery (0.1.1+)
+
+The tested stock clock advertises `_adb._tcp.local.` through mDNS on port `1379`. The integration listens through Home Assistant's built-in Zeroconf discovery. It only probes matching advertisements on the stock port and verifies the installed Klydo app and stable device identity over ADB before offering a confirmation card. It does not scan network addresses or use the advertised service name as a trusted device ID.
+
+For an already configured clock, an advertisement from a new address is verified over ADB before its saved address is updated. Existing entity IDs stay the same. Repeated advertisements at the configured IP do not open another ADB connection. A DHCP reservation remains useful.
+
+Home Assistant must receive the clock's mDNS traffic and reach its ADB port. Discovery normally works on the same local network; across VLANs, your router may need mDNS forwarding configured, plus the existing restricted HA-to-clock ADB firewall rule. Keep manual setup for networks that block multicast, clocks using a different ADB port, or firmware that advertises differently. The generic Android hostname is not used for DHCP auto-discovery.
+
+Discovery was observed live from the test clock, and the Home Assistant flow is covered by automated tests. Appearance of the card on your particular HA/network installation still needs confirmation. Full details: [discovery evidence](docs/DISCOVERY.md).
 
 ## Included in 0.1.0
 

@@ -15,6 +15,10 @@
           "host": "Hostname or IP address",
           "port": "ADB port"
         }
+      },
+      "discovery_confirm": {
+        "title": "Discovered Klydo Clock",
+        "description": "A stock Klydo Clock was verified at {host}. Add this clock? Its ADB port provides root access without authentication; restrict access to Home Assistant and trusted administration devices."
       }
     },
     "error": {
@@ -27,7 +31,11 @@
     "abort": {
       "already_configured": "This clock is already configured. Use Reconfigure to update its address.",
       "unique_id_mismatch": "This address belongs to a different clock.",
-      "reconfigure_successful": "Clock address updated."
+      "reconfigure_successful": "Clock address updated.",
+      "not_klydo": "This is not a supported Klydo ADB advertisement.",
+      "invalid_host": "This advertisement does not contain a supported network address.",
+      "cannot_verify": "The advertised device could not be verified as a Klydo Clock. Try manual setup if needed.",
+      "already_in_progress": "Setup for this clock is already in progress."
     }
   },
   "options": {

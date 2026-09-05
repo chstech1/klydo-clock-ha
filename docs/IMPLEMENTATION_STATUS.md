@@ -1,6 +1,6 @@
 # Implementation and acceptance status
 
-Release scope: **0.1.0 — ADB MVP**. This is the first installment of the supplied plan, not completion of every phase. The repository is separate from the private reverse-engineering workspace and backup.
+Release scope: **0.1.1 — ADB MVP with verified mDNS discovery**. This is the first installment of the supplied plan, not completion of every phase. The repository is separate from the private reverse-engineering workspace and backup.
 
 ## Implemented
 
@@ -17,7 +17,7 @@ Release scope: **0.1.0 — ADB MVP**. This is the first installment of the suppl
 
 Read-only ADB queries succeeded on the available stock Android 8.1/PX30 clock running Klydo `623.3`: package version, process, focused window, `/data` storage, Android display-power state and system brightness. Next/previous key events were already physically verified in the source plan. No new display, app-stop, night-mode, playback, database or cloud changes were performed for this release.
 
-Local validation: 54 automated tests passed with 96% coverage; Ruff passed; Home Assistant 2026.9.0 Hassfest reported one integration and zero invalid integrations. The physical clock completed 100 consecutive read-only polls at five-second intervals and an explicit close/reconnect/identify/poll check. A separate final-client check verified the corrected storage parser against the device. Explicit disconnect/reconnect tests do not substitute for testing an actual device reboot or Wi-Fi outage.
+Local validation for 0.1.1: 70 automated tests passed with 96% coverage; Ruff passed; the 0.1.0 baseline passed Hassfest, and GitHub Actions validates each update. The physical clock completed 100 consecutive read-only polls at five-second intervals and an explicit close/reconnect/identify/poll check. A separate final-client check verified the corrected storage parser against the device. Explicit disconnect/reconnect tests do not substitute for testing an actual device reboot or Wi-Fi outage.
 
 ## Acceptance work still required
 
@@ -39,4 +39,8 @@ Automated tests use Python 3.14 and Home Assistant 2026.9.0 with `pytest-homeass
 
 ## Publishing status
 
-The public HACS package and versioned `v0.1.0` release are published. GitHub authorization includes the required `workflow` scope, and `.github/workflows/validate.yaml` is uploaded. Tests, Ruff, Hassfest, and HACS validation run on pushes and pull requests. Check the repository Actions tab for the latest results.
+The public HACS package uses versioned GitHub releases. GitHub authorization includes the required `workflow` scope, and `.github/workflows/validate.yaml` is uploaded. Tests, Ruff, Hassfest, and HACS validation run on pushes and pull requests. Check the repository Actions tab for the latest results.
+
+## Discovery update (0.1.1)
+
+Live unicast DNS-SD and multicast browsing both confirmed the stock `_adb._tcp.local.` service on port 1379. ADB service identity is verified before discovery confirmation or existing-entry address updates. The clock has a generic Android hostname and no distinctive `net.hostname`, so no DHCP hostname/vendor matcher was added. See `DISCOVERY.md` for sanitized evidence and network limitations.
