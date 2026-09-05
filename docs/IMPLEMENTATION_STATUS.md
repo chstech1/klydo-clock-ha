@@ -39,4 +39,4 @@ Automated tests use Python 3.14 and Home Assistant 2026.9.0 with `pytest-homeass
 
 ## Publishing status
 
-The HACS package can be published with the existing GitHub login. Uploading `.github/workflows/validate.yaml` additionally requires the GitHub CLI `workflow` scope. The workflow is prepared locally; activation is pending that authorization. GitHub-hosted HACS validation remains pending until the workflow is uploaded.
+The public HACS package and versioned `v0.1.0` release are published. GitHub authorization includes the required `workflow` scope, and `.github/workflows/validate.yaml` is uploaded. Tests, Ruff, Hassfest, and HACS validation run on pushes and pull requests. Check the repository Actions tab for the latest results.

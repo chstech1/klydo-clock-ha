@@ -83,6 +83,6 @@ Tests run with sockets disabled and use synthetic/sanitized fixtures. To run the
 
 The client can also run without Home Assistant; this script only needs `adb-shell[async]==0.4.4`. It prints counts, not device identifiers. It does not reboot or change the clock.
 
-The prepared GitHub Actions workflow runs tests, Ruff, Hassfest, and HACS validation; see the implementation status for activation progress. Runtime files live entirely in `custom_components/klydo_clock`. Original local brand artwork is included for modern Home Assistant; the HACS legacy CDN-brand check is skipped for this custom repository. Upstream catalog submission is outside this release.
+GitHub Actions runs tests, Ruff, Hassfest, and HACS validation on pushes and pull requests. Runtime files live entirely in `custom_components/klydo_clock`. Original local brand artwork is included for modern Home Assistant; the HACS legacy CDN-brand check is skipped for this custom repository. Upstream catalog submission is outside this release.
 
 This is an independent community integration, not affiliated with or endorsed by Klydo.
