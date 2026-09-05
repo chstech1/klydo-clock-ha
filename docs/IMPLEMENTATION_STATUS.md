@@ -17,7 +17,7 @@ Release scope: **0.1.0 — ADB MVP**. This is the first installment of the suppl
 
 Read-only ADB queries succeeded on the available stock Android 8.1/PX30 clock running Klydo `623.3`: package version, process, focused window, `/data` storage, Android display-power state and system brightness. Next/previous key events were already physically verified in the source plan. No new display, app-stop, night-mode, playback, database or cloud changes were performed for this release.
 
-Local validation: 54 automated tests passed with 96% coverage; Ruff passed; Home Assistant 2026.9.0 Hassfest reported one integration and zero invalid integrations. The read-only soak-test result is recorded after completion. Explicit disconnect/reconnect tests do not substitute for testing an actual device reboot or Wi-Fi outage.
+Local validation: 54 automated tests passed with 96% coverage; Ruff passed; Home Assistant 2026.9.0 Hassfest reported one integration and zero invalid integrations. The physical clock completed 100 consecutive read-only polls at five-second intervals and an explicit close/reconnect/identify/poll check. A separate final-client check verified the corrected storage parser against the device. Explicit disconnect/reconnect tests do not substitute for testing an actual device reboot or Wi-Fi outage.
 
 ## Acceptance work still required
 
